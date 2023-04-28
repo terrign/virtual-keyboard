@@ -129,7 +129,7 @@
       "shiftkey": "+"
     }
   },
-  "Backspace": "Backspace",
+  "Backspace": "⌫",
   "Tab": "Tab",
   "KeyQ": {
     "ru": {
@@ -251,16 +251,6 @@
       "shiftkey": "}"
     }
   },
-  "Backslash": {
-    "ru": {
-      "key": "\\",
-      "shiftkey": "/"
-    },
-    "en": {
-      "key": "\\",
-      "shiftkey": "|"
-    }
-  },
   "Delete": "Del",
   "CapsLock": "Caps lock",
   "KeyA": {
@@ -375,6 +365,16 @@
   },
   "Enter": "Enter",
   "LeftShift": "Shift",
+  "Backslash": {
+    "ru": {
+      "key": "\\",
+      "shiftkey": "/"
+    },
+    "en": {
+      "key": "\\",
+      "shiftkey": "|"
+    }
+  },
   "KeyZ": {
     "ru": {
       "key": "я",

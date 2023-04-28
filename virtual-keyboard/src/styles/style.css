@@ -1,8 +1,15 @@
 @import "~normalize.css";
 @import "keyboard.css";
-@import "button.css";
 
 html {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
+  background-color: rgba(151, 199, 175, 0.274);
+  font-weight: 700;
+}
+
+@media screen and (max-width: 768px) {
+  html {
+    font-size: 12px;
+  }
 }

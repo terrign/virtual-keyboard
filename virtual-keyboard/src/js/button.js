@@ -25,13 +25,21 @@ export default class Button {
       button.dataset.enShiftKey = Button.buttons[this.code].en.shiftkey
       button.dataset.ruKey = Button.buttons[this.code].ru.key
       button.dataset.ruShiftKey = Button.buttons[this.code].ru.shiftkey
-      value.innerText = button.dataset.enKey
+      value.innerText = button.dataset.enKey.toUpperCase()
     } else {
-      button.dataset.controlButton = true
       value.innerText = Button.buttons[this.code]
+      button.classList.add(this.code.toLowerCase())
     }
     button.append(value)
   return button
+  }
+
+  buttonHandler() {
+    
+  }
+
+  controlButtonHandler() {
+
   }
 
   init() {

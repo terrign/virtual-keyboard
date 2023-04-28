@@ -1,43 +1,122 @@
-
 .container {
   height: 80vh;
-  width: 85%;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  margin: 8vh auto;
+  width: 95%;
+  max-width: 1200px;
+  margin: 3vh auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 30px 0;
   justify-content: space-between;
+  overflow-y: hidden;
+  position: relative;
 }
 
 .text {
-  width: 95%;
+  width: 100%;
   height: 25vh;
   padding: 12px 20px;
   box-sizing: border-box;
   border: 1px solid #cccccc9c;
   border-radius: 4px;
-  background-color: #f8f8f8;
-  font-size: 16px;
+  background-color: rgba(151, 199, 175, 0.274);
   resize: none;
   margin: 0 auto;
+  font-size: 1.4rem;
+}
+
+.text:focus-visible {
+  outline: none;
 }
 
 .keyboard {
-  width: 95%;
-  height: 45vh;
-  padding: 12px 20px;
+  width: 99%;
+  height: 35vh;
   box-sizing: border-box;
-  border: 1px solid #cccccc9c;
-  border-radius: 4px;
-  background-color: #f8f8f8;
-  font-size: 16px;
-  resize: none;
+  background-color: transparent;
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(15, [col] minmax(20px,1fr));
+  grid-template-rows: repeat(5, [row] 1fr);
+  gap: 4px;
+  position: relative;
+  top: 800px;
+  transition: all .7s ease-in-out;
+}
+
+.keyboard_active {
+  top: 0px;
+}
+
+
+.keyboard-button {
+  padding: 0 10px;
+  background-color: rgba(102, 131, 116, 0.459);
+  box-shadow: 2px 2px 2px rgba(29, 36, 32, 0.459);
+  position: relative;
   display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
+  border-radius: 10px;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.keyboard-button:active {
+  transform: scale(1.1);
+  transform: translate(1px, 1px);
+}
+
+.controls-container {
+  justify-self: flex-end;
+  position: absolute;
+  top: -45px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: 150px;
+}
+
+.tip-button,
+.lang-button {
+  width: 70px;
+  height: 40px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(114, 172, 141, 0.589);
+  border-radius: 10px;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+}
+
+.backspace {
+  grid-column: col 14 / span 2;
+}
+
+.capslock {
+  grid-column: col 1 / span 2;
+}
+
+.enter {
+  grid-column: col 14 / span 2;
+}
+
+.leftshift {
+  grid-column: col 1 / span 2;
+}
+
+.space {
+  grid-column: col 4 / span 7;
+}
+
+.tab {
+  grid-column: col 1 / span 2;
 }
 
