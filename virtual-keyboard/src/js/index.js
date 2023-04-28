@@ -1,18 +1,20 @@
-import lang from './lang-save.js';
 import Keyboard from './keyboard.js';
 import Button from './button.js';
-import json from '../assets/buttons.json';
 import '../styles/style.css';
 
-lang();
 
-const keyboard = new Keyboard();
 
-const button = new Button();
+function initPage() {
+  Keyboard.saveLang()
+  const container = document.createElement('div')
+  container.classList.add('container')
+  container.append(Keyboard.createTextArea(), Keyboard.createKeyboard())
+  document.body.append(container)
+}
 
-keyboard.init();
-button.init();
+initPage()
 
-keyboard.hi().then(console.log);
-console.log(json);
-console.log(keyboard.getId);
+
+
+
+
