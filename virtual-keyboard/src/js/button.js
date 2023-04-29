@@ -8,9 +8,10 @@ export default class Button {
                            'ControlLeft', 'MetaLeft', 'AltLeft', 'AltRight','ControlRight',
                            'ArrowUp','ArrowLeft','ArrowRight','ArrowDown']
 
-  constructor (code,lang) {
+  constructor (code, lang, keyboard) {
     this.code = code
     this.key = Button.buttons[code]
+    this.keyboard = keyboard
     return this.createButton(lang)
   }
 
@@ -32,18 +33,21 @@ export default class Button {
       button.classList.add(this.code.toLowerCase())
       button.addEventListener('mousedown',this.controlButtonHandler)
     }
-    button.addEventListener('mousedown', this.clickAnimationAdd)
+    button.addEventListener('mousedown', this.clickAnimation)
     button.append(value)
   return button
   }
 
-  buttonHandler(event) {
+  buttonHandler = this.buttonHandlerFunc.bind(this)
+
+  buttonHandlerFunc (event) {
     const txt = document.querySelector('textarea')
     txt.value += event.currentTarget.firstElementChild.innerText
-
   }
 
-  controlButtonHandler(event) {
+  controlButtonHandler = this.controlButtonHandlerFunc.bind(this)
+
+  controlButtonHandlerFunc(event) {
     const txt = document.querySelector('textarea')
     txt.focus()
     const getSelectionRange = () => [txt.selectionStart,txt.selectionEnd]
@@ -87,9 +91,18 @@ export default class Button {
     if (id === 'Space') {
       txt.value += ' '
     }
+    if (id === 'CapsLock') {
+      this.keyboard.capsLockEnabled = this.keyboard.capsLockEnabled ===  false ? true : false
+      if(!event.currentTarget.classList.contains('capslock-active')) event.currentTarget.classList.add('capslock-active')
+      else if(event.currentTarget.classList.contains('capslock-active')) event.currentTarget.classList.remove('capslock-active')
+      
+    }
   }
 
-  clickAnimationAdd(event) {
+  clickAnimation = this.clickAnimationHandler.bind(this)
+
+
+  clickAnimationHandler(event) {
     let trgt = event.currentTarget
     trgt.classList.add('keyboard__button_active')
     document.addEventListener('mouseup', () => {
@@ -97,5 +110,6 @@ export default class Button {
       document.querySelector('textarea').focus()
     },{once:true})
   }
+
 
 }

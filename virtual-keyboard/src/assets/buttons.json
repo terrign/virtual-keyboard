@@ -364,7 +364,7 @@
     }
   },
   "Enter": "Enter",
-  "LeftShift": "Shift",
+  "ShiftLeft": "Shift",
   "Backslash": {
     "ru": {
       "key": "\\",
@@ -476,7 +476,7 @@
     }
   },
   "ArrowUp": "↑",
-  "RightShift": "Shift",
+  "ShiftRight": "Shift",
   "ControlLeft": "Ctrl",
   "MetaLeft": "Win",
   "AltLeft": "Alt",

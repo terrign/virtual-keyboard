@@ -65,8 +65,7 @@
 }
 
 .keyboard__button_active {
-  transform: scale(1.1);
-  transform: translate(1px, 1px);
+  transform: translate(1px, 1px) scale(0.98);
   background-color: rgba(102, 131, 116, 0.603);
 }
 
@@ -109,7 +108,7 @@
   grid-column: col 14 / span 2;
 }
 
-.leftshift {
+.shiftleft {
   grid-column: col 1 / span 2;
 }
 
@@ -119,5 +118,9 @@
 
 .tab {
   grid-column: col 1 / span 2;
+}
+
+.capslock-active {
+  color: rgba(218, 18, 18, 0.356)
 }
 

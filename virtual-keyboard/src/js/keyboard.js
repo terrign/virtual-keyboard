@@ -8,28 +8,28 @@ export default class Keyboard {
     this.lang = localStorage.getItem('lang')
   }
 
-  static saveLangToLocalOnChange() {
+  saveLangToLocalOnChange() {
     if (!localStorage.getItem('lang')) localStorage.setItem('lang', 'en')
   }
 
-  static createTextArea() {
+  createTextArea() {
     const textArea = document.createElement('textarea')
     textArea.classList.add('text')
     return textArea
   }
 
-  static createKeyboard() {
+  createKeyboard () {
     const keyBoard = document.createElement('div')
     keyBoard.classList.add('keyboard')
     for (let key of Object.keys(Button.buttons)) {
-      let button = new Button(key, localStorage.getItem('lang'))
+      let button = new Button(key, localStorage.getItem('lang'), this)
       keyBoard.append(button)
     }
-    keyBoard.append(Keyboard.createControls())
+    keyBoard.append(this.createControls())
     return keyBoard
   }
 
-  static createControls() {
+  createControls() {
     const controlsContainer = document.createElement('div')
     const tipButton = document.createElement('div')
     const langButton = document.createElement('div')
@@ -53,15 +53,56 @@ export default class Keyboard {
     })
   }
 
+  addShiftToggle() {
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Shift') {
+        this.shiftPressed = true
+        document.querySelector(`#${e.code}`).classList.add('keyboard__button_active')
+        document.querySelectorAll('.keyboard-button').forEach (a => {
+          if(a.dataset[`${this.lang}ShiftKey`]) {
+            a.firstElementChild.innerText = a.dataset[`${this.lang}ShiftKey`]
+          }
+        })
+      }
+      document.addEventListener('keyup', () => {
+        if (e.key === 'Shift') {
+          this.shiftPressed = false
+          document.querySelector(`#${e.code}`).classList.remove('keyboard__button_active')
+          document.querySelectorAll('.keyboard-button').forEach (a => {
+            if(a.dataset[`${this.lang}Key`]) {
+              a.firstElementChild.innerText = a.dataset[`${this.lang}Key`]
+            }
+          },{once: true})
+        }
+      })
+    })
+  }
+
+
+  eventDispatcher() {
+    document.addEventListener('keydown',(e) => {
+      if (Button.buttons[e.code] && e.code !==('ShiftRight') && e.code !==('ShiftLeft')) {
+        e.preventDefault()
+        document.querySelector(`#${e.code}`).dispatchEvent(new Event('mousedown'))
+        document.addEventListener('keyup',() => {
+          e.preventDefault()
+          document.dispatchEvent(new Event('mouseup'))
+        })
+      }
+    })
+  }
+
   init() {
-    Keyboard.saveLangToLocalOnChange()
+    this.saveLangToLocalOnChange()
     const container = document.createElement('div')
     container.classList.add('container')
-    container.append(Keyboard.createTextArea(), Keyboard.createKeyboard())
+    container.append(this.createTextArea(), this.createKeyboard())
     document.body.append(container)
     document.addEventListener('DOMContentLoaded',()=> {
       setTimeout(()=>document.querySelector('.keyboard').classList.add('keyboard_active'), 1)
     })
+    this.addShiftToggle()
+    this.eventDispatcher()
   }
 }
 
