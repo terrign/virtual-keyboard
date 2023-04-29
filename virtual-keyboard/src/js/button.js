@@ -4,10 +4,6 @@ export default class Button {
 
   static buttons = json
 
-  static controlButtons = ['Backspase', 'Tab', 'Enter', 'CapsLock','ShiftLeft', 'ShiftRight',
-                           'ControlLeft', 'MetaLeft', 'AltLeft', 'AltRight','ControlRight',
-                           'ArrowUp','ArrowLeft','ArrowRight','ArrowDown']
-
   constructor (code, lang, keyboard) {
     this.code = code
     this.key = Button.buttons[code]
@@ -41,66 +37,81 @@ export default class Button {
   buttonHandler = this.buttonHandlerFunc.bind(this)
 
   buttonHandlerFunc (event) {
-    const txt = document.querySelector('textarea')
-    txt.value += event.currentTarget.firstElementChild.innerText
+    const txt = this.keyboard.textArea
+    this.handleSelectionInsertion(this.valueInsert, event.currentTarget.firstElementChild.innerText)
   }
 
   controlButtonHandler = this.controlButtonHandlerFunc.bind(this)
 
   controlButtonHandlerFunc(event) {
-    const txt = document.querySelector('textarea')
+    const txt = this.keyboard.textArea
     txt.focus()
-    const getSelectionRange = () => [txt.selectionStart,txt.selectionEnd]
+    const range = this.getSelectionRange()
     const id = event.currentTarget.id
     if (id ==='Backspace') {
-      let range = getSelectionRange()
       if (range[1] - range[0] === 0) {
         txt.value = txt.value.slice(0, range[0] - 1) + txt.value.slice(range[0], txt.value.length)
         txt.setSelectionRange(range[0]-1,range[0]-1)
       }
       if (range[1] - range[0] > 0) {
-        txt.value = txt.value.slice(0, range[0]) + txt.value.slice(range[1], txt.value.length)
-        txt.setSelectionRange(range[0],range[0])
+        this.removeSelection()
       }
     }
-    if (id ==='Tab') txt.value += '\t';
-    if (id ==='Enter') txt.value += '\n';
+    if (id ==='Tab') this.handleSelectionInsertion(this.valueInsert,'\t');
+    if (id ==='Enter') this.handleSelectionInsertion(this.valueInsert,'\n');
     if (id ==='Delete') {
-      let range = getSelectionRange()
       if (range[1] - range[0] === 0) {
         txt.value = txt.value.slice(0, range[0]) + txt.value.slice(range[0] + 1, txt.value.length)
         txt.setSelectionRange(range[0],range[0])
       }
       if (range[1] - range[0] > 0) {
-        txt.value = txt.value.slice(0, range[0]) + txt.value.slice(range[1], txt.value.length)
-        txt.setSelectionRange(range[0],range[0])
+        this.removeSelection()
       }
     }
     if (id === 'ArrowUp') {
-      txt.value += Button.buttons.ArrowUp
+      this.handleSelectionInsertion(this.valueInsert, Button.buttons.ArrowUp)
     }
     if (id === 'ArrowDown') {
-      txt.value += Button.buttons.ArrowDown
+      this.handleSelectionInsertion(this.valueInsert, Button.buttons.ArrowDown)
     }
     if (id === 'ArrowRight') {
-      txt.value += Button.buttons.ArrowRight
+      this.handleSelectionInsertion(this.valueInsert, Button.buttons.ArrowRight)
     }
     if (id === 'ArrowLeft') {
-      txt.value += Button.buttons.ArrowLeft
+      this.handleSelectionInsertion(this.valueInsert, Button.buttons.ArrowLeft)
     }
     if (id === 'Space') {
-      txt.value += ' '
+      this.handleSelectionInsertion(this.valueInsert, ' ')
     }
-    if (id === 'CapsLock') {
-      this.keyboard.capsLockEnabled = this.keyboard.capsLockEnabled ===  false ? true : false
-      if(!event.currentTarget.classList.contains('capslock-active')) event.currentTarget.classList.add('capslock-active')
-      else if(event.currentTarget.classList.contains('capslock-active')) event.currentTarget.classList.remove('capslock-active')
-      
+  }
+
+  valueInsert = (value) => {
+    const txt = this.keyboard.textArea
+    const range = this.getSelectionRange()[0]
+    txt.value = txt.value.slice(0, range) + value + txt.value.slice(range, txt.value.length)
+    txt.setSelectionRange(range+1,range+1)
+
+  }
+
+  getSelectionRange = () => [this.keyboard.textArea.selectionStart,this.keyboard.textArea.selectionEnd]
+
+  removeSelection = () => {
+    const txt = this.keyboard.textArea
+    const range = this.getSelectionRange()
+    txt.value = txt.value.slice(0, range[0]) + txt.value.slice(range[1], txt.value.length)
+    txt.setSelectionRange(range[0],range[0])
+  }
+
+  handleSelectionInsertion(func, arg) {
+    const range = this.getSelectionRange()
+    if (range[1] - range[0] === 0) func(arg)
+    if (range[1] - range[0] > 0) {
+      this.removeSelection()
+      func(arg)
     }
   }
 
   clickAnimation = this.clickAnimationHandler.bind(this)
-
 
   clickAnimationHandler(event) {
     let trgt = event.currentTarget

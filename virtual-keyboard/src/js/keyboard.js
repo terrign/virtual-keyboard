@@ -6,6 +6,7 @@ export default class Keyboard {
     this.shiftPressed = false
     this.capsLockEnabled = false
     this.lang = localStorage.getItem('lang')
+    this.textArea = this.createTextArea()
   }
 
   saveLangToLocalOnChange() {
@@ -64,7 +65,7 @@ export default class Keyboard {
           }
         })
       }
-      document.addEventListener('keyup', () => {
+      document.addEventListener('keyup', (e) => {
         if (e.key === 'Shift') {
           this.shiftPressed = false
           document.querySelector(`#${e.code}`).classList.remove('keyboard__button_active')
@@ -96,7 +97,7 @@ export default class Keyboard {
     this.saveLangToLocalOnChange()
     const container = document.createElement('div')
     container.classList.add('container')
-    container.append(this.createTextArea(), this.createKeyboard())
+    container.append(this.textArea, this.createKeyboard())
     document.body.append(container)
     document.addEventListener('DOMContentLoaded',()=> {
       setTimeout(()=>document.querySelector('.keyboard').classList.add('keyboard_active'), 1)
