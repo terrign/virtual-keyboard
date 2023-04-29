@@ -8,13 +8,13 @@ export default class Button {
                            'ControlLeft', 'MetaLeft', 'AltLeft', 'AltRight','ControlRight',
                            'ArrowUp','ArrowLeft','ArrowRight','ArrowDown']
 
-  constructor (code) {
+  constructor (code,lang) {
     this.code = code
     this.key = Button.buttons[code]
-    return this.createButton()
+    return this.createButton(lang)
   }
 
-  createButton() {
+  createButton(lang) {
     const button = document.createElement('div')
     const value = document.createElement('div')
     button.setAttribute('id', this.code)
@@ -25,26 +25,77 @@ export default class Button {
       button.dataset.enShiftKey = Button.buttons[this.code].en.shiftkey
       button.dataset.ruKey = Button.buttons[this.code].ru.key
       button.dataset.ruShiftKey = Button.buttons[this.code].ru.shiftkey
-      value.innerText = button.dataset.enKey.toUpperCase()
+      value.innerText = button.dataset[`${lang}Key`]
+      button.addEventListener('mousedown', this.buttonHandler)
     } else {
       value.innerText = Button.buttons[this.code]
       button.classList.add(this.code.toLowerCase())
+      button.addEventListener('mousedown',this.controlButtonHandler)
     }
+    button.addEventListener('mousedown', this.clickAnimationAdd)
     button.append(value)
   return button
   }
 
-  buttonHandler() {
-    
-  }
-
-  controlButtonHandler() {
+  buttonHandler(event) {
+    const txt = document.querySelector('textarea')
+    txt.value += event.currentTarget.firstElementChild.innerText
 
   }
 
-  init() {
-    console.log('Button class is active')
+  controlButtonHandler(event) {
+    const txt = document.querySelector('textarea')
+    txt.focus()
+    const getSelectionRange = () => [txt.selectionStart,txt.selectionEnd]
+    const id = event.currentTarget.id
+    if (id ==='Backspace') {
+      let range = getSelectionRange()
+      if (range[1] - range[0] === 0) {
+        txt.value = txt.value.slice(0, range[0] - 1) + txt.value.slice(range[0], txt.value.length)
+        txt.setSelectionRange(range[0]-1,range[0]-1)
+      }
+      if (range[1] - range[0] > 0) {
+        txt.value = txt.value.slice(0, range[0]) + txt.value.slice(range[1], txt.value.length)
+        txt.setSelectionRange(range[0],range[0])
+      }
+    }
+    if (id ==='Tab') txt.value += '\t';
+    if (id ==='Enter') txt.value += '\n';
+    if (id ==='Delete') {
+      let range = getSelectionRange()
+      if (range[1] - range[0] === 0) {
+        txt.value = txt.value.slice(0, range[0]) + txt.value.slice(range[0] + 1, txt.value.length)
+        txt.setSelectionRange(range[0],range[0])
+      }
+      if (range[1] - range[0] > 0) {
+        txt.value = txt.value.slice(0, range[0]) + txt.value.slice(range[1], txt.value.length)
+        txt.setSelectionRange(range[0],range[0])
+      }
+    }
+    if (id === 'ArrowUp') {
+      txt.value += Button.buttons.ArrowUp
+    }
+    if (id === 'ArrowDown') {
+      txt.value += Button.buttons.ArrowDown
+    }
+    if (id === 'ArrowRight') {
+      txt.value += Button.buttons.ArrowRight
+    }
+    if (id === 'ArrowLeft') {
+      txt.value += Button.buttons.ArrowLeft
+    }
+    if (id === 'Space') {
+      txt.value += ' '
+    }
+  }
+
+  clickAnimationAdd(event) {
+    let trgt = event.currentTarget
+    trgt.classList.add('keyboard__button_active')
+    document.addEventListener('mouseup', () => {
+      trgt.classList.remove('keyboard__button_active')
+      document.querySelector('textarea').focus()
+    },{once:true})
   }
 
 }
-
