@@ -1,14 +1,10 @@
-import Keyboard from './keyboard.js';
-import Button from './button.js';
+import Keyboard from './keyboard';
 import '../styles/style.css';
 
-const keyboard = new Keyboard()
+const keyboard = new Keyboard();
 
-keyboard.init()
+keyboard.init();
 
-document.addEventListener('keydown',(e) => {
-  if (e.altKey === true && e.key ==='Shift' || e.shiftKey === true && e.key === 'Alt') keyboard.updateLang()
-})
-
-
-
+document.addEventListener('keydown', (e) => {
+  if ((e.altKey === true && e.key === 'Shift') || (e.shiftKey === true && e.key === 'Alt')) keyboard.updateLang();
+});
