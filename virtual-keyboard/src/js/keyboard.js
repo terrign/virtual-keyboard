@@ -35,7 +35,7 @@ export default class Keyboard {
     langButton.classList.add('lang-button');
     tipButton.innerText = '?';
     langButton.innerText = localStorage.getItem('lang').toUpperCase();
-    Keyboard.toolTip(controlsContainer,tipButton);
+    Keyboard.toolTip(controlsContainer, tipButton);
     controlsContainer.append(tipButton, langButton);
     return controlsContainer;
   }
@@ -44,14 +44,14 @@ export default class Keyboard {
     const tip = document.createElement('div');
     tip.classList.add('tool-tip');
     const desc = document.createElement('li');
-    desc.innerText = 'Windows Keyboard'
+    desc.innerText = 'Windows Keyboard';
     const shortcut = document.createElement('li');
-    shortcut.innerText = 'Shift + Alt to change language';
+    shortcut.innerText = 'Language change shortcut: Shift + Alt';
     tip.append(desc, shortcut);
-    container.append(tip)
+    container.append(tip);
     tipButton.addEventListener('click', () => {
-      tip.classList.toggle('tool-tip_hidden')
-    })
+      tip.classList.toggle('tool-tip_hidden');
+    });
   }
 
   updateLang = this.updateKeyboardLanguage.bind(this);
