@@ -43,6 +43,7 @@ export default class Keyboard {
   static toolTip(container, tipButton) {
     const tip = document.createElement('div');
     tip.classList.add('tool-tip');
+    tip.classList.add('tool-tip_hidden');
     const desc = document.createElement('li');
     desc.innerText = 'Windows Keyboard';
     const shortcut = document.createElement('li');
@@ -103,7 +104,7 @@ export default class Keyboard {
 
   addCapsToggle() {
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'CapsLock') {
+      if (e.key === 'CapsLock' && e.repeat === false) {
         this.capsLockEnabled = this.capsLockEnabled === false;
         if (this.capsLockEnabled) {
           document.querySelectorAll('.keyboard-button').forEach((a) => {
@@ -129,7 +130,7 @@ export default class Keyboard {
 
   static eventDispatcher() {
     document.addEventListener('keydown', (e) => {
-      if (Button.buttons[e.code] && e.code !== ('ShiftRight') && e.code !== ('ShiftLeft')) {
+      if (Button.buttons[e.code] && e.code !== ('ShiftRight') && e.code !== ('ShiftLeft') && e.code !== 'CapsLock') {
         e.preventDefault();
         document.querySelector(`#${e.code}`).dispatchEvent(new Event('mousedown'));
         document.addEventListener('keyup', () => {

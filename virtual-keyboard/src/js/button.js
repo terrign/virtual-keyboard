@@ -85,6 +85,9 @@ export default class Button {
     if (id === 'Space') {
       this.handleSelectionInsertion(this.valueInsert, ' ');
     }
+    if (id === 'CapsLock') {
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'CapsLock', code: 'CapsLock' }));
+    }
   }
 
   valueInsert = (value) => {
