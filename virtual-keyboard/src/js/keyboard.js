@@ -35,8 +35,23 @@ export default class Keyboard {
     langButton.classList.add('lang-button');
     tipButton.innerText = '?';
     langButton.innerText = localStorage.getItem('lang').toUpperCase();
+    Keyboard.toolTip(controlsContainer,tipButton);
     controlsContainer.append(tipButton, langButton);
     return controlsContainer;
+  }
+
+  static toolTip(container, tipButton) {
+    const tip = document.createElement('div');
+    tip.classList.add('tool-tip');
+    const desc = document.createElement('li');
+    desc.innerText = 'Windows Keyboard'
+    const shortcut = document.createElement('li');
+    shortcut.innerText = 'Shift + Alt to change language';
+    tip.append(desc, shortcut);
+    container.append(tip)
+    tipButton.addEventListener('click', () => {
+      tip.classList.toggle('tool-tip_hidden')
+    })
   }
 
   updateLang = this.updateKeyboardLanguage.bind(this);
@@ -67,10 +82,10 @@ export default class Keyboard {
           }
         });
       }
-      document.addEventListener('keyup', (f) => {
-        if (f.key === 'Shift') {
+      document.addEventListener('keyup', (event) => {
+        if (event.key === 'Shift') {
           this.shiftPressed = false;
-          document.querySelector(`#${f.code}`).classList.remove('keyboard__button_active');
+          document.querySelector(`#${event.code}`).classList.remove('keyboard__button_active');
           document.querySelectorAll('.keyboard-button').forEach((a) => {
             if (a.dataset[`${this.lang}Key`] && !this.capsLockEnabled) {
               const button = a;

@@ -10,6 +10,7 @@
   justify-content: space-between;
   overflow-y: hidden;
   position: relative;
+  z-index: 100;
 }
 
 .text {
@@ -19,7 +20,7 @@
   box-sizing: border-box;
   border: 1px solid #cccccc9c;
   border-radius: 4px;
-  background-color: rgba(151, 199, 175, 0.274);
+  background-color: rgb(206, 218, 211);
   resize: none;
   margin: 0 auto;
   font-size: 1.4rem;
@@ -33,7 +34,7 @@
   width: 99%;
   height: 35vh;
   box-sizing: border-box;
-  background-color: transparent;
+  background-color: rgb(216, 238, 227);
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(15, [col] minmax(20px,1fr));
@@ -42,6 +43,7 @@
   position: relative;
   top: 800px;
   transition: all .7s ease-in-out;
+  z-index: 100;
 }
 
 .keyboard_active {
@@ -50,9 +52,9 @@
 
 
 .keyboard-button {
-  padding: 0 10px;
-  background-color: rgba(102, 131, 116, 0.459);
-  box-shadow: 2px 2px 2px rgba(29, 36, 32, 0.459);
+  padding: 0 5px;
+  background-color: rgb(147, 184, 164);
+  box-shadow: 2px 2px 2px rgb(60, 88, 73);
   position: relative;
   display: flex;
   border-radius: 10px;
@@ -63,38 +65,37 @@
   justify-content: center;
   font-size: 1.2rem;
   text-align: center;
+  z-index: 100;
 }
 
 .keyboard__button_active {
   transform: translate(1px, 1px) scale(0.98);
-  background-color: rgba(102, 131, 116, 0.603);
+  background-color: rgb(119, 163, 140);
 }
 
 .controls-container {
   justify-self: flex-end;
   position: absolute;
   top: -45px;
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
   display: flex;
   justify-content: space-between;
-  width: 150px;
+  width: 100%;
+  z-index: 1;
 }
 
 .tip-button,
 .lang-button {
   width: 70px;
   height: 40px;
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(114, 172, 141, 0.589);
+  background-color: rgb(164, 212, 186);
   border-radius: 10px;
   -moz-user-select: none;
   -khtml-user-select: none;
   user-select: none;
+  cursor: pointer;
 }
 
 .backspace {
@@ -122,6 +123,24 @@
 }
 
 .capslock-active {
-  color: rgba(218, 18, 18, 0.356)
+  color: rgba(218, 18, 18)
+}
+
+
+.tool-tip {
+  width: calc(100% - 150px);
+  height: 15vh;
+  position: relative;
+  top: calc(-15vh + 40px);
+  z-index: 1;
+  transition: opacity 0.5s ease;
+}
+
+.tool-tip_hidden {
+  opacity: 0;
+}
+
+.tool-tip > li {
+  margin-top: 10px;
 }
 
