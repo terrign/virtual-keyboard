@@ -51,6 +51,7 @@ export default class Button {
     const range = this.getSelectionRange();
     const { id } = event.currentTarget;
     if (id === 'Backspace') {
+      if (range[0] === 0 && range[1] === 0) return;
       if (range[1] - range[0] === 0) {
         txt.value = txt.value.slice(0, range[0] - 1) + txt.value.slice(range[0], txt.value.length);
         txt.setSelectionRange(range[0] - 1, range[0] - 1);
