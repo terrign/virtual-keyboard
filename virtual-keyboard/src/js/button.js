@@ -89,6 +89,34 @@ export default class Button {
     if (id === 'CapsLock') {
       document.dispatchEvent(new KeyboardEvent('keydown', { key: 'CapsLock', code: 'CapsLock' }));
     }
+    if (id === 'ShiftRight' || id === 'ShiftLeft') {
+      this.shiftPressed = true;
+      document.querySelector(`#${id}`).classList.add('keyboard__button_active');
+      document.querySelectorAll('.keyboard-button').forEach((a) => {
+        if (a.dataset[`${this.keyboard.lang}ShiftKey`] && !this.keyboard.capsLockEnabled) {
+          const button = a;
+          button.firstElementChild.innerText = a.dataset[`${this.keyboard.lang}ShiftKey`];
+        }
+        if (a.dataset[`${this.keyboard.lang}ShiftKey`] && this.keyboard.capsLockEnabled) {
+          const button = a;
+          button.firstElementChild.innerText = a.dataset[`${this.keyboard.lang}ShiftKey`].toLowerCase();
+        }
+      });
+      document.addEventListener('mouseup', () => {
+        this.shiftPressed = false;
+        document.querySelector(`#${id}`).classList.remove('keyboard__button_active');
+        document.querySelectorAll('.keyboard-button').forEach((a) => {
+          if (a.dataset[`${this.keyboard.lang}Key`] && !this.keyboard.capsLockEnabled) {
+            const button = a;
+            button.firstElementChild.innerText = a.dataset[`${this.keyboard.lang}Key`];
+          }
+          if (a.dataset[`${this.keyboard.lang}ShiftKey`] && this.keyboard.capsLockEnabled) {
+            const button = a;
+            button.firstElementChild.innerText = a.dataset[`${this.keyboard.lang}Key`].toUpperCase();
+          }
+        }, { once: true });
+      });
+    }
   }
 
   valueInsert = (value) => {
